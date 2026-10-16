@@ -1,0 +1,850 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nucleus Lab | DNA Analyser</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+    --bg: #080b18;
+    --panel: #11182b;
+    --border: #29324d;
+    --purple: #a78bfa;
+    --cyan: #54e7f5;
+    --text: #f1f5ff;
+    --muted: #929dbb;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    padding: 30px 16px;
+    background:
+        radial-gradient(ellipse at 10% 5%, #36206a44, transparent 35%),
+        radial-gradient(ellipse at 90% 90%, #07576a33, transparent 35%),
+        var(--bg);
+    color: var(--text);
+    font-family: Inter, Arial, sans-serif;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 42px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.brand-icon {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    color: var(--cyan);
+    background: #17263b;
+    border: 1px solid #315065;
+    font-size: 23px;
+}
+
+.status {
+    padding: 8px 11px;
+    border: 1px solid #285447;
+    border-radius: 30px;
+    background: #10251f;
+    color: #77f3b0;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.hero {
+    margin-bottom: 28px;
+}
+
+.eyebrow {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+}
+
+h1 {
+    font-size: clamp(34px, 7vw, 53px);
+    line-height: 1.12;
+    letter-spacing: -2px;
+    margin-bottom: 15px;
+}
+
+h1 span {
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.description {
+    max-width: 550px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.panel {
+    background: linear-gradient(145deg, #131b30, #0d1324);
+    border: 1px solid var(--border);
+    border-radius: 19px;
+    padding: 25px;
+    margin-bottom: 22px;
+    box-shadow: 0 15px 45px #00000020;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.step {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #29214c;
+    color: var(--purple);
+    font-family: "Space Mono", monospace;
+    font-weight: bold;
+}
+
+.panel-heading h2 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.panel-heading p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #d7def5;
+}
+
+/* COLORFUL DNA BUTTONS */
+
+.base-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.base-btn {
+    min-width: 0;
+    min-height: 67px;
+    border-radius: 14px;
+    font-size: 25px;
+    font-weight: 800;
+    font-family: "Space Mono", monospace;
+    border: 1px solid transparent;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s, filter 0.15s;
+}
+
+.base-btn:active {
+    transform: scale(0.92);
+    filter: brightness(1.3);
+}
+
+.base-btn.a {
+    background: #ff9cba20;
+    color: #ff9cba;
+    border-color: #ff9cba70;
+}
+
+.base-btn.t {
+    background: #91a7ff20;
+    color: #91a7ff;
+    border-color: #91a7ff70;
+}
+
+.base-btn.g {
+    background: #ffc66e20;
+    color: #ffc66e;
+    border-color: #ffc66e70;
+}
+
+.base-btn.c {
+    background: #69e5b020;
+    color: #69e5b0;
+    border-color: #69e5b070;
+}
+
+textarea {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    padding: 16px;
+    border: 1px solid #303a59;
+    border-radius: 12px;
+    background: #090f20;
+    color: var(--cyan);
+    font-family: "Space Mono", monospace;
+    font-size: 14px;
+    line-height: 1.9;
+    outline: none;
+    overflow-wrap: anywhere;
+    transition: border .2s, box-shadow .2s;
+}
+
+textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px #a78bfa19;
+}
+
+textarea::placeholder {
+    color: #56617f;
+}
+
+.input-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 11px;
+}
+
+.bases {
+    display: flex;
+    gap: 5px;
+}
+
+.base {
+    padding: 4px 7px;
+    border-radius: 5px;
+    font-family: "Space Mono", monospace;
+    font-weight: bold;
+}
+
+.base-a { color: #ff9cba; background: #ff9cba16; }
+.base-t { color: #91a7ff; background: #91a7ff16; }
+.base-c { color: #69e5b0; background: #69e5b016; }
+.base-g { color: #ffc66e; background: #ffc66e16; }
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 21px;
+}
+
+.action-btn {
+    min-height: 47px;
+    padding: 13px 18px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform .2s, filter .2s;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.12);
+}
+
+.primary {
+    flex: 1;
+    color: #101326;
+    background: linear-gradient(100deg, var(--purple), var(--cyan));
+    border: 0;
+}
+
+.secondary {
+    color: #c6cde4;
+    background: #202941;
+    border: 1px solid #35415e;
+}
+
+#message {
+    display: none;
+    margin-top: 17px;
+    padding: 13px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+#message.success {
+    display: block;
+    color: #83f5b7;
+    background: #123126;
+    border: 1px solid #285c46;
+}
+
+#message.error {
+    display: block;
+    color: #ff9aab;
+    background: #351c2b;
+    border: 1px solid #673047;
+}
+
+/* ANALYSIS RESULTS */
+
+#results {
+    display: none;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.result-header h2 {
+    font-size: 20px;
+}
+
+.result-header p {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.valid-pill {
+    color: #80f0b0;
+    background: #143126;
+    border: 1px solid #285b43;
+    padding: 8px 11px;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.section-label {
+    margin: 25px 0 12px;
+    color: #a6b0cf;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.sequence-box {
+    background: #090f20;
+    border: 1px solid #27314d;
+    border-radius: 12px;
+    padding: 17px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    font-family: "Space Mono", monospace;
+    font-size: 13px;
+    line-height: 2;
+    color: var(--cyan);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.stat {
+    position: relative;
+    overflow: hidden;
+    padding: 17px 14px;
+    border: 1px solid var(--border);
+    background: #111a2e;
+    border-radius: 13px;
+}
+
+.stat::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent, var(--purple));
+}
+
+.symbol {
+    font-family: "Space Mono", monospace;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--accent, var(--purple));
+    margin-bottom: 12px;
+}
+
+.name {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.number {
+    font-size: 26px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.stat-a { --accent: #ff9cba; }
+.stat-t { --accent: #91a7ff; }
+.stat-c { --accent: #69e5b0; }
+.stat-g { --accent: #ffc66e; }
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.summary {
+    padding: 20px;
+    border-radius: 13px;
+    background: #111a2e;
+    border: 1px solid var(--border);
+}
+
+.summary .name {
+    margin-bottom: 12px;
+}
+
+.unit {
+    font-size: 12px;
+    color: var(--cyan);
+    margin-top: 5px;
+}
+
+.meter {
+    height: 5px;
+    margin-top: 15px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #28324c;
+}
+
+.meter-fill {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+    transition: width .5s;
+}
+
+.complement {
+    color: #d2b7ff;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px 5px 5px;
+    color: #697593;
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .topbar {
+        margin-bottom: 34px;
+    }
+
+    .panel {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .base-buttons {
+        gap: 8px;
+    }
+
+    .base-btn {
+        min-height: 62px;
+        font-size: 23px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .stat {
+        padding: 15px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        width: 100%;
+    }
+
+    .result-header {
+        align-items: flex-start;
+    }
+
+    .brand {
+        font-size: 12px;
+    }
+
+    .status {
+        font-size: 9px;
+        padding: 7px 8px;
+    }
+
+    h1 {
+        letter-spacing: -1.3px;
+    }
+
+    .summary {
+        padding: 15px;
+    }
+
+    .summary .number {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 350px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-icon {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<main class="container">
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon">🧬</div>
+            <div>NUCLEUS<span style="color:var(--cyan)">.</span>LAB</div>
+        </div>
+        <div class="status">● ANALYSIS READY</div>
+    </header>
+
+    <section class="hero">
+        <div class="eyebrow">BIOINFORMATICS / TOOL 001</div>
+        <h1>DNA Sequence<br><span>Analyser.</span></h1>
+        <p class="description">
+            Decode your genetic sequence. Validate nucleotide bases,
+            calculate GC content, and generate the complementary DNA strand.
+        </p>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <div class="step">01</div>
+            <div>
+                <h2>Build your sequence</h2>
+                <p>Tap the colorful bases to construct your DNA.</p>
+            </div>
+        </div>
+
+        <label>CHOOSE A NUCLEOTIDE</label>
+
+        <div class="base-buttons">
+            <button type="button" class="base-btn a"
+                onclick="addBase('A')" aria-label="Add Adenine A">A</button>
+
+            <button type="button" class="base-btn t"
+                onclick="addBase('T')" aria-label="Add Thymine T">T</button>
+
+            <button type="button" class="base-btn g"
+                onclick="addBase('G')" aria-label="Add Guanine G">G</button>
+
+            <button type="button" class="base-btn c"
+                onclick="addBase('C')" aria-label="Add Cytosine C">C</button>
+        </div>
+
+        <label for="dnaInput">YOUR DNA SEQUENCE</label>
+
+        <textarea id="dnaInput"
+            placeholder="Tap A, T, G or C above..."
+            spellcheck="false"
+            autocapitalize="characters"
+            aria-describedby="inputHelp"></textarea>
+
+        <div class="input-info" id="inputHelp">
+            <span id="baseCount">0 bases entered</span>
+            <span>Tip: select text to insert or replace bases</span>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="action-btn primary"
+                id="analyseButton">Analyse Sequence ↗</button>
+
+            <button type="button" class="action-btn secondary"
+                id="clearButton">Clear</button>
+        </div>
+
+        <div id="message" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="results">
+        <div class="result-header">
+            <div>
+                <h2>Analysis report</h2>
+                <p>Your DNA sequence has been processed.</p>
+            </div>
+            <div class="valid-pill">✓ VALID DNA</div>
+        </div>
+
+        <div class="section-label">01 / Original sequence</div>
+        <div class="sequence-box" id="givenDna"></div>
+
+        <div class="section-label">02 / Nucleotide distribution</div>
+        <div class="grid">
+            <div class="stat stat-a">
+                <div class="symbol">A</div>
+                <div class="name">Adenine</div>
+                <div class="number" id="countA">0</div>
+            </div>
+
+            <div class="stat stat-t">
+                <div class="symbol">T</div>
+                <div class="name">Thymine</div>
+                <div class="number" id="countT">0</div>
+            </div>
+
+            <div class="stat stat-c">
+                <div class="symbol">C</div>
+                <div class="name">Cytosine</div>
+                <div class="number" id="countC">0</div>
+            </div>
+
+            <div class="stat stat-g">
+                <div class="symbol">G</div>
+                <div class="name">Guanine</div>
+                <div class="number" id="countG">0</div>
+            </div>
+        </div>
+
+        <div class="section-label">03 / Sequence metrics</div>
+        <div class="summary-grid">
+            <div class="summary">
+                <div class="name">TOTAL LENGTH</div>
+                <div class="number" id="length">0</div>
+                <div class="unit">nucleotides</div>
+            </div>
+
+            <div class="summary">
+                <div class="name">GC CONTENT</div>
+                <div class="number" id="gcContent">0%</div>
+                <div class="meter">
+                    <div class="meter-fill" id="gcMeter"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-label">04 / Complementary strand</div>
+        <div class="sequence-box complement" id="complement"></div>
+
+        <div class="footer">
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>
+            ANALYSIS COMPLETE · NUCLEUS.LAB<br>
+            <span style="color:#4e5b7a">
+                A pairs with T &nbsp; · &nbsp; C pairs with G
+            </span>
+        </div>
+    </section>
+
+    <footer class="footer">
+        DNA SEQUENCE ANALYSER / BUILT WITH HTML, CSS & JAVASCRIPT
+    </footer>
+</main>
+
+<script>
+const dnaInput = document.getElementById("dnaInput");
+const message = document.getElementById("message");
+const results = document.getElementById("results");
+const baseCount = document.getElementById("baseCount");
+
+document.getElementById("analyseButton")
+    .addEventListener("click", analyseDNA);
+
+document.getElementById("clearButton")
+    .addEventListener("click", clearAll);
+
+/* Add a base where the cursor is positioned. */
+function addBase(base) {
+    const start = dnaInput.selectionStart;
+    const end = dnaInput.selectionEnd;
+
+    dnaInput.setRangeText(base, start, end, "end");
+    dnaInput.focus();
+
+    updateBaseCount();
+}
+
+/* Keep the displayed length up to date. */
+function updateBaseCount() {
+    const value = dnaInput.value.replace(/\s/g, "");
+    const count = value.length;
+
+    baseCount.textContent =
+        count + (count === 1 ? " base entered" : " bases entered");
+}
+
+dnaInput.addEventListener("input", updateBaseCount);
+
+/* Analyse the DNA sequence. */
+function analyseDNA() {
+    const dna = dnaInput.value.toUpperCase().replace(/\s/g, "");
+
+    results.style.display = "none";
+    message.className = "";
+
+    if (dna.length === 0) {
+        showMessage("Please enter a DNA sequence first.", "error");
+        return;
+    }
+
+    if (!/^[ATGC]+$/.test(dna)) {
+        showMessage(
+            "Invalid DNA sequence! Only A, T, G and C are allowed.",
+            "error"
+        );
+        return;
+    }
+
+    let ca = 0;
+    let ct = 0;
+    let cg = 0;
+    let cc = 0;
+    let complementDNA = "";
+
+    for (const base of dna) {
+        if (base === "A") {
+            ca++;
+            complementDNA += "T";
+        } else if (base === "T") {
+            ct++;
+            complementDNA += "A";
+        } else if (base === "G") {
+            cg++;
+            complementDNA += "C";
+        } else if (base === "C") {
+            cc++;
+            complementDNA += "G";
+        }
+    }
+
+    const total = dna.length;
+    const gcContent = ((cg + cc) / total) * 100;
+
+    document.getElementById("givenDna").textContent = dna;
+
+    document.getElementById("countA").textContent = ca;
+    document.getElementById("countT").textContent = ct;
+    document.getElementById("countC").textContent = cc;
+    document.getElementById("countG").textContent = cg;
+
+    document.getElementById("length").textContent = total;
+
+    document.getElementById("gcContent").textContent =
+        gcContent.toFixed(2) + "%";
+
+    document.getElementById("gcMeter").style.width =
+        gcContent + "%";
+
+    document.getElementById("complement").textContent =
+        complementDNA;
+
+    showMessage("✓ DNA sequence validated successfully!", "success");
+
+    results.style.display = "block";
+
+    /* Bring the results into view on smaller screens. */
+    results.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+function showMessage(text, type) {
+    message.textContent = text;
+    message.className = type;
+}
+
+function clearAll() {
+    dnaInput.value = "";
+    message.textContent = "";
+    message.className = "";
+    results.style.display = "none";
+
+    updateBaseCount();
+    dnaInput.focus();
+}
+
+/* Ctrl+Enter analyses the sequence on a computer. */
+dnaInput.addEventListener("keydown", function(event) {
+    if (event.ctrlKey && event.key === "Enter") {
+        analyseDNA();
+    }
+});
+</script>
+
+</body>
+</html>
+```
